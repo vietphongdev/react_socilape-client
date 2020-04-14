@@ -13,7 +13,7 @@ const AuthenticateRoute = ({ component : Component, authenticated, ...rest }) =>
 
 const mapStateToProps = state => {
     return {
-        authenticated: state.user.authenticated
+        authenticated: state.userReducer.authenticated
     }
   };
 

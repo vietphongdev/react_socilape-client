@@ -6,15 +6,15 @@ import dayjs from 'dayjs';
 import withStyles from '@material-ui/core/styles/withStyles';
 import { Paper, Typography, Link as MuiLink } from '@material-ui/core';
 import { LocationOn, CalendarToday } from '@material-ui/icons';
-import EditIcon from '@material-ui/icons/Edit';
+import { FaUserEdit } from 'react-icons/fa';
 import LinkIcon from '@material-ui/icons/Link';
 // Component
-import ProfileSkeleton from '../components/skeleton/ProfileSkeleton';
+import ProfileSkeleton from './ProfileSkeleton';
 import EditProfile from './EditProfile';
 // Actions
-import { uploadAvatar } from '../redux/actions/userAction';
+import { uploadAvatar } from '../../redux/actions/userAction';
 // Style
-import styles from '../styles/ProfileStyle';
+import styles from '../../styles/ProfileStyle';
 
 class Profile extends Component {
 
@@ -51,7 +51,7 @@ class Profile extends Component {
               />
               <input type="file" id="avatar" hidden="hidden" onChange={this.handleImageChange} />
               <div className={classes.overlay}>
-                <EditIcon color="primary" onClick={this.handleEditAvater}/>
+                <FaUserEdit color="#00BCD4" size={22} onClick={this.handleEditAvater}/>
               </div>
             </div>
             <div>
@@ -94,12 +94,12 @@ class Profile extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    user: state.user,
+    user: state.userReducer,
   };
 };
 
-const mapActionsToProps = {
+const mapActionToProps = {
   uploadAvatar
 }
 
-export default connect(mapStateToProps, mapActionsToProps)(withStyles(styles)(Profile));
+export default connect(mapStateToProps, mapActionToProps)(withStyles(styles)(Profile));

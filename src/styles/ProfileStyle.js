@@ -48,6 +48,9 @@ const styles = (theme) => ({
   media: {
     height: 190,
   },
+  loadingButton: {
+    marginLeft: 10
+  }
 });
 
 export default styles;

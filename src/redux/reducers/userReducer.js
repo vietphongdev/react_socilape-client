@@ -5,6 +5,9 @@ import {
   GET_USER_REQUEST,
   GET_USER_SUCCESS,
   LOGOUT_SUCCESS,
+
+  LIKE_SCREAM,
+  UNLIKE_SCREAM
 } from '../types';
 
 const initialState = {
@@ -51,7 +54,22 @@ export default function (state = initialState, { type, payload }) {
         userLoading: false,
         ...payload,
       };
-
+    case LIKE_SCREAM:
+      return {
+        ...state,
+        likes: [
+          ...state.likes,
+          {
+            userHandle: state.credentials.handle,
+            screamId: payload.screamId
+          }
+        ]
+      };
+    case UNLIKE_SCREAM:
+      return {
+        ...state,
+        likes: state.likes.filter(like => like.screamId !== payload.screamId)
+      };
 
     case LOGOUT_SUCCESS:
       return initialState;

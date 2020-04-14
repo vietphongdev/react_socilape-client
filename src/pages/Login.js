@@ -78,7 +78,7 @@ class Login extends Component {
             >
               Login
 							{
-								loading && <CircularProgress size={18} className={classes.progress} />
+								loading && <CircularProgress size={18} className={classes.loadingButton} />
 							}
             </Button>
 						<br />
@@ -93,7 +93,7 @@ class Login extends Component {
 
 const mapStateToProps = state => {
   return {
-    user: state.user
+    user: state.userReducer
   }
 };
 

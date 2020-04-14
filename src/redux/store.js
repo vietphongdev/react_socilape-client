@@ -6,13 +6,15 @@ import {
 } from 'redux';
 import thunk from 'redux-thunk';
 import userReducer from './reducers/userReducer';
+import screamReducer from './reducers/screamReducer';
 
 const initialState = {};
 
 const middleware = [thunk];
 
 const reducers = combineReducers({
-    user: userReducer
+    userReducer,
+    screamReducer
 });
 
 const store = createStore(

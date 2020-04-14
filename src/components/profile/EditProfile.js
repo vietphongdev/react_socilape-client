@@ -12,7 +12,7 @@ import {
 } from '@material-ui/core';
 import EditIcon from '@material-ui/icons/Edit';
 import { connect } from 'react-redux';
-import { editProfile } from '../redux/actions/userAction';
+import { editProfile } from '../../redux/actions/userAction';
 
 const styles = (theme) => ({
   ...theme.form,
@@ -134,15 +134,15 @@ class EditProfile extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    credentials: state.user.credentials,
+    credentials: state.userReducer.credentials,
   };
 };
 
-const mapActionsToProps = {
+const mapActionToProps = {
   editProfile,
 };
 
 export default connect(
   mapStateToProps,
-  mapActionsToProps
+  mapActionToProps
 )(withStyles(styles)(EditProfile));

@@ -28,8 +28,14 @@ export default {
         fontSize: '0.8rem',
         marginTop: 10
       },
-      progress: {
-        marginLeft: 20
+      loadingButton: {
+        marginLeft: 10
+      }
+    },
+    icon: {
+      iconButton: {
+        fontSize: '14px',
+        marginRight: 15
       }
     }
 }
