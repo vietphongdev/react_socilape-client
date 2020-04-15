@@ -48,7 +48,7 @@ class CreateScream extends Component {
     event.preventDefault();
     this.props.createScream({body: this.state.body});
     this.handleClose();
-  }
+  };
   handleClose = () => {
     this.props.clearError("create");
     this.setState({ 

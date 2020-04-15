@@ -16,6 +16,10 @@ import {
     LIKE_SCREAM,
     UNLIKE_SCREAM,
 
+    ADD_COMMENT_REQUEST,
+    ADD_COMMENT_SUCCESS,
+    ADD_COMMENT_FAILURE,
+
     DELETE_SCREAM_REQUEST,
     DELETE_SCREAM_SUCCESS
 } from '../types';
@@ -27,12 +31,14 @@ const initialState = {
         get: false,
         getDetail: false,
         create: false,
-        delete: false
+        delete: false,
+        addComment: false,
     },
     errors: {
         get: null,
         create: null,
-        delete: null
+        delete: null,
+        addComment: null
     }
 };
 
@@ -141,6 +147,49 @@ export default function(state = initialState, { type, method, payload }){
                     }
                     return scream;
                 })
+            };
+
+        // COMMENT
+        case ADD_COMMENT_REQUEST:
+            return {
+                ...state,
+                loading: {
+                    ...state.loading,
+                    addComment: true
+                }
+            };
+        case ADD_COMMENT_SUCCESS:
+            return {
+                ...state,
+                loading: {
+                    ...state.loading,
+                    addComment: false
+                },
+                scream: {
+                    ...state.scream,
+                    comments: [
+                        payload,
+                        ...state.scream.comments,
+                    ]
+                },
+                errors: {
+                    ...state.errors,
+                    addComment: null
+                }
+            };
+        case ADD_COMMENT_FAILURE:
+            console.log('payload >>', payload);
+            
+            return {
+                ...state,
+                loading: {
+                    ...state.loading,
+                    addComment: false
+                },
+                errors: {
+                    ...state.errors,
+                    addComment: payload
+                }
             };
         
         // DELETE

@@ -9,7 +9,6 @@ import {
   Avatar,
   Tooltip,
   IconButton,
-  Chip,
 } from '@material-ui/core';
 // React-icon
 import { IoIosStarOutline } from 'react-icons/io';
@@ -17,7 +16,6 @@ import { AiOutlineUsergroupAdd, AiOutlineLike } from 'react-icons/ai';
 import { TiPencil } from 'react-icons/ti';
 import { FiEye } from 'react-icons/fi';
 import { GoCommentDiscussion } from 'react-icons/go';
-import { MdShare } from 'react-icons/md';
 
 const styles = (theme) => ({
   ...theme.icon,
@@ -33,7 +31,7 @@ const styles = (theme) => ({
   },
 });
 
-class Author extends Component {
+class ScreamDetailHeader extends Component {
   render() {
     const {
       classes,
@@ -146,4 +144,4 @@ const mapActionToProps = {};
 export default connect(
   mapStateToProps,
   mapActionToProps
-)(withStyles(styles)(Author));
+)(withStyles(styles)(ScreamDetailHeader));

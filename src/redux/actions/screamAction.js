@@ -13,6 +13,10 @@ import {
     GET_SCREAM_SUCCESS,
     GET_SCREAM_FAILURE,
 
+    ADD_COMMENT_REQUEST,
+    ADD_COMMENT_SUCCESS,
+    ADD_COMMENT_FAILURE,
+
     LIKE_SCREAM,
     UNLIKE_SCREAM,
 
@@ -103,6 +107,26 @@ export const unlikeScream = (screamId) => dispatch => {
             })
         })
         .catch(err => console.log(err));
+};
+
+// Add comment
+export const addComment = (screamId, comment) => dispatch => {
+    dispatch({ type: ADD_COMMENT_REQUEST });
+    axios
+        .post(`/scream/${screamId}/comment`, comment)
+        .then(res => {
+            dispatch({
+                type: ADD_COMMENT_SUCCESS,
+                payload: res.data
+            });
+            dispatch(clearError("addComment"));
+        })
+        .catch(err => {
+            dispatch({ 
+                type: ADD_COMMENT_FAILURE,
+                payload: err.response.data.error
+            });
+        });
 };
 
 // Delete Scream

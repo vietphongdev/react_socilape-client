@@ -13,6 +13,12 @@ export default {
         contrastText: '#FFFFFF'
       }
     },
+    user: {
+      avatar: {
+        marginRight: 10
+      },
+    },
+
     form : {
       container: {
         textAlign: 'center'
@@ -34,7 +40,7 @@ export default {
     },
     icon: {
       iconButton: {
-        fontSize: '14px',
+        fontSize: 16,
         marginRight: 15
       }
     }

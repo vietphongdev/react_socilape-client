@@ -2,82 +2,66 @@ import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
 // Material-Ui
 import withStyles from '@material-ui/core/styles/withStyles';
 import {
   Grid,
   Typography,
-  Button,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  CircularProgress,
+  Avatar,
 } from '@material-ui/core';
-import CloseIcon from '@material-ui/icons/Close';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
-// ACtions
-import { getScream } from '../../redux/actions/screamAction';
 
 const styles = (theme) => ({
-  ...theme.form,
+  ...theme.user,
+  comment : {
+    marginBottom: 25,
+    // borderTop: '1px solid rgba(0,0,0,.1)'
+  },
+  body : {
+    marginTop: 8
+  }
 });
 
 class Comment extends Component {
-  state = {
-    open: false,
-  };
-  handleOpen = () => {
-    this.setState({ open: true });
-    this.props.getScream(this.props.scream.screamId);
-  };
-  handleClose = () => {
-    this.setState({ open: false });
-  };
+  
 
   render() {
-    const { classes, comments } = this.props;
-    const { open } = this.state;
-
+    const { classes, comments = [] } = this.props;
+    dayjs.extend(relativeTime);
     return (
-      <Grid container>
+      <Fragment>
         {comments.map((comment) => {
-          const { body, createdAt, userImage, userHandle } = comment;
+          const { userHandle, userImage, body, createdAt } = comment;
           return (
-            <Fragment key={createdAt}>
-              <Grid item sm={12}>
-                <Grid container>
-                  <Grid item sm={2}>
-                    <img
-                      src={userImage}
-                      alt="comment"
-                      className={classes.commentImage}
-                    />
-                  </Grid>
-                  <Grid item sm={9}>
-                    <div className={classes.commentData}>
-											<Typography
-												variant="h5"
-												component={Link}
-												to={`/users/${userHandle}`}
-												color="primary"
-											>
-												{userHandle}
-											</Typography>
-											<Typography
-												variant="body2"
-												color="textSecondary"
-											>
-												{dayjs(createdAt).format('h:mm a, MMMM DD YYYY')}
-											</Typography>
-											<Typography variant="body1">{body}</Typography>
-										</div>
+            <div key={createdAt} className={classes.comment}>
+              <Grid>
+                <Grid container direction="row" alignItems="center">
+                  <Avatar
+                    alt="Remy Sharp"
+                    src={userImage}
+                    className={classes.avatar}
+                  />
+                  <Grid>
+                    <Typography
+                      color="primary"
+                      component={Link}
+                      to={`/users/${userHandle}`}
+                    >
+                      @{userHandle}
+                    </Typography>
+                    <Typography variant="body2" color="textSecondary">
+                      {dayjs(createdAt).format('h:mm a, MMMM DD YYYY')}
+                    </Typography>
                   </Grid>
                 </Grid>
+                <Grid className={classes.body}>
+                  {body}
               </Grid>
-            </Fragment>
+              </Grid>
+            </div>
           );
         })}
-      </Grid>
+      </Fragment>
     );
   }
 }
@@ -89,7 +73,7 @@ const mapStateToProps = (state) => {
 };
 
 const mapActionToProps = {
-  getScream,
+  
 };
 
 export default connect(
