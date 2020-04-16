@@ -35,7 +35,7 @@ class ScreamDetailHeader extends Component {
   render() {
     const {
       classes,
-      scream: { authorId, authorName, authorImage },
+      scream: { authorId, authorName, authorImage, likeCount = 0, comments = 0 },
     } = this.props;
     return (
       <Grid
@@ -107,22 +107,22 @@ class ScreamDetailHeader extends Component {
                 <FiEye color="primary" />: 33
               </IconButton>
             </Tooltip>
-            <Tooltip title={`Likes: ${34}`} placement="bottom">
+            <Tooltip title={`Likes: ${likeCount}`} placement="bottom">
               <IconButton
                 onClick={this.openDialog}
                 size="small"
                 className={classes.iconButton}
               >
-                <AiOutlineLike color="primary" />: 33
+                <AiOutlineLike color="primary" />: {likeCount}
               </IconButton>
             </Tooltip>
-            <Tooltip title={`Comments: ${34}`} placement="bottom">
+            <Tooltip title={`Comments: ${comments.length}`} placement="bottom">
               <IconButton
                 onClick={this.openDialog}
                 size="small"
                 className={classes.iconButton}
               >
-                <GoCommentDiscussion color="primary" />: 33
+                <GoCommentDiscussion color="primary" />: {comments.length}
               </IconButton>
             </Tooltip>
           </Grid>

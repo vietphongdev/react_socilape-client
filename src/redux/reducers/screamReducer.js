@@ -177,9 +177,7 @@ export default function(state = initialState, { type, method, payload }){
                     addComment: null
                 }
             };
-        case ADD_COMMENT_FAILURE:
-            console.log('payload >>', payload);
-            
+        case ADD_COMMENT_FAILURE:            
             return {
                 ...state,
                 loading: {

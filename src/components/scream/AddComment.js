@@ -21,13 +21,19 @@ class AddComment extends Component {
   };
   handleSubmit = (event) => {
     event.preventDefault();
-    this.props.addComment(this.props.screamId, { body: this.state.comment });
+    this.props.addComment(this.props.screamId, { body: this.state.comment }).then(() => {
+      this.setState({comment: ''});
+    })
   };
 
-  componentDidUpdate(prevProps, prevState) {
-    console.log('prevProps', prevProps);
-    console.log('prevState', prevState);
-  }
+  // componentDidUpdate(prevProps) {
+  //   if(
+  //     prevProps.scream.comments && 
+  //     prevProps.scream.comments.length !== this.props.scream.comments.length
+  //   ){
+  //     this.setState({comment: ''});
+  //   }
+  // }
   
 
   render() {
@@ -53,7 +59,7 @@ class AddComment extends Component {
           variant="contained"
           color="primary"
           className={classes.submitButton}
-          disabled={loading || !comment}
+          disabled={loading}
         >
           Submit
           {loading && (
@@ -69,6 +75,7 @@ const mapStateToProps = (state) => {
   return {
     loading: state.screamReducer.loading.addComment,
     error: state.screamReducer.errors.addComment,
+    scream: state.screamReducer.scream,
   };
 };
 

@@ -112,7 +112,7 @@ export const unlikeScream = (screamId) => dispatch => {
 // Add comment
 export const addComment = (screamId, comment) => dispatch => {
     dispatch({ type: ADD_COMMENT_REQUEST });
-    axios
+    return axios
         .post(`/scream/${screamId}/comment`, comment)
         .then(res => {
             dispatch({
