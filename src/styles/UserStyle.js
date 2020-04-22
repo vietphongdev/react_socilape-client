@@ -2,7 +2,7 @@ const styles = (theme) => ({
   paper: {
     padding: 20,
   },
-  profile: {
+  user: {
     textAlign: 'center',
   },
   avatar: {

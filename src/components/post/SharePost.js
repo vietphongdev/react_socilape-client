@@ -36,7 +36,7 @@ const styles = (theme) => ({
   },
 });
 
-class ShareScream extends Component {
+class SharePost extends Component {
   render() {
     const { classes } = this.props;
     return (
@@ -67,4 +67,4 @@ class ShareScream extends Component {
   }
 }
 
-export default withStyles(styles)(ShareScream);
+export default withStyles(styles)(SharePost);

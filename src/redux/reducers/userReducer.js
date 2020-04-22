@@ -2,74 +2,159 @@ import {
   AUTHENTICATE_REQUEST,
   AUTHENTICATE_SUCCESS,
   AUTHENTICATE_FAILURE,
-  GET_USER_REQUEST,
-  GET_USER_SUCCESS,
+  GET_OWNER_REQUEST,
+  GET_OWNER_SUCCESS,
+  GET_OWNER_FAILURE,
+  GET_GUEST_REQUEST,
+  GET_GUEST_SUCCESS,
+  GET_GUEST_FAILURE,
+  LIKE_POST,
+  UNLIKE_POST,
   LOGOUT_SUCCESS,
-
-  LIKE_SCREAM,
-  UNLIKE_SCREAM
 } from '../types';
 
 const initialState = {
-  loading: false,
+  loading: {
+    authenticated: false,
+    getOwner: false,
+    getGuest: false,
+  },
   authenticated: false,
-  errors: {},
-  userLoading: false,
-  credentials: {},
-  likes: [],
-  notifications: [],
+  user: {
+    owner: {
+      credentials: {},
+      likes: [],
+      notifications: [],
+    },
+    guest: {
+      credentials: {},
+      posts: []
+    },
+  },
+  error: {
+    authenticated: {},
+    getOwner: null,
+    getGuest: null,
+  },
 };
 
 export default function (state = initialState, { type, payload }) {
   switch (type) {
-
     case AUTHENTICATE_REQUEST:
       return {
         ...state,
-        loading: true,
+        loading: {
+          ...state.loading,
+          authenticated: true,
+        },
       };
     case AUTHENTICATE_SUCCESS:
       return {
         ...state,
-        loading: false,
+        loading: {
+          ...state.loading,
+          authenticated: false,
+        },
         authenticated: true,
-        errors: {},
+        error: {
+          ...state.error,
+          authenticated: {},
+        },
       };
     case AUTHENTICATE_FAILURE:
       return {
         ...state,
-        loading: false,
-        errors: payload,
+        loading: {
+          ...state.loading,
+          authenticated: false,
+        },
+        error: {
+          ...state.error,
+          authenticated: payload,
+        },
       };
 
-      
-    case GET_USER_REQUEST:
+    // GET OWNER
+    case GET_OWNER_REQUEST:
       return {
         ...state,
-        userLoading: true
+        loading: {
+          ...state.loading,
+          getOwner: true,
+        },
       };
-    case GET_USER_SUCCESS:
+    case GET_OWNER_SUCCESS:
       return {
         ...state,
-        userLoading: false,
-        ...payload,
+        loading: {
+          ...state.loading,
+          getOwner: false,
+        },
+        user: {
+          ...state.user,
+          owner: payload,
+        },
+        error: {
+          ...state.error,
+          getOwner: null,
+        },
       };
-    case LIKE_SCREAM:
+
+    // GET GUEST
+    case GET_GUEST_REQUEST:
       return {
         ...state,
-        likes: [
-          ...state.likes,
-          {
-            userHandle: state.credentials.handle,
-            screamId: payload.screamId
-          }
-        ]
+        loading: {
+          ...state.loading,
+          getGuest: true,
+        },
       };
-    case UNLIKE_SCREAM:
+    case GET_GUEST_SUCCESS:
       return {
         ...state,
-        likes: state.likes.filter(like => like.screamId !== payload.screamId)
+        loading: {
+          ...state.loading,
+          getGuest: false,
+        },
+        user: {
+          ...state.user,
+          guest: payload,
+        },
+        error: {
+          ...state.error,
+          getGuest: null,
+        },
       };
+    case GET_GUEST_FAILURE:
+      return {
+        ...state,
+        loading: {
+          ...state.loading,
+          getGuest: false,
+        },
+        error: {
+          ...state.error,
+          getGuest: payload,
+        },
+      };
+
+    // LIKE
+    // case LIKE_POST:
+    //   return {
+    //     ...state,
+    //     likes: [
+    //       ...state.likes,
+    //       {
+    //         userHandle: state.credentials.handle,
+    //         postId: payload.postId
+    //       }
+    //     ]
+    //   };
+    // case UNLIKE_POST:
+    //   return {
+    //     ...state,
+    //     likes: state.likes.filter(like => like.postId !== payload.postId)
+    //   };
 
     case LOGOUT_SUCCESS:
       return initialState;

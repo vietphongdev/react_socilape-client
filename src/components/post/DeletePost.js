@@ -11,13 +11,13 @@ import {
 } from '@material-ui/core';
 import { AiOutlineDelete } from 'react-icons/ai';
 // Action
-import { deleteScream } from '../../redux/actions/screamAction';
+import { deletePost } from '../../redux/actions/postAction';
 
 const styles = (theme) => ({
   ...theme.form,
 });
 
-class DeleteScream extends Component {
+class DeletePost extends Component {
   state = {
     open: false,
   };
@@ -27,8 +27,8 @@ class DeleteScream extends Component {
   handleClose = () => {
     this.setState({ open: false });
   };
-  deleteScream = () => {
-    this.props.deleteScream(this.props.screamId);
+  deletePost = () => {
+    this.props.deletePost(this.props.postId);
     this.handleClose();
   };
 
@@ -43,7 +43,7 @@ class DeleteScream extends Component {
           fullWidth
           maxWidth="sm"
         >
-          <DialogTitle>Are you sure to want to delete scream ?</DialogTitle>
+          <DialogTitle>Are you sure to want to delete post ?</DialogTitle>
           <DialogActions>
             <Button
               onClick={this.handleClose}
@@ -53,7 +53,7 @@ class DeleteScream extends Component {
               Cancel
             </Button>
             <Button
-              onClick={this.deleteScream}
+              onClick={this.deletePost}
               variant="contained"
               color="secondary"
               disabled={loading}
@@ -72,15 +72,15 @@ class DeleteScream extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    loading: state.screamReducer.loading.delete,
+    loading: state.postReducer.loading.delete,
   };
 };
 
 const mapActionToProps = {
-  deleteScream,
+  deletePost,
 };
 
 export default connect(
   mapStateToProps,
   mapActionToProps
-)(withStyles(styles)(DeleteScream));
+)(withStyles(styles)(DeletePost));

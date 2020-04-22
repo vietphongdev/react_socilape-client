@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import withStyles from '@material-ui/core/styles/withStyles';
 import { Button, TextField, CircularProgress } from '@material-ui/core';
 // Actions
-import { addComment } from '../../redux/actions/screamAction';
+import { addComment } from '../../redux/actions/postAction';
 
 const styles = (theme) => ({
   ...theme.form,
@@ -21,20 +21,10 @@ class AddComment extends Component {
   };
   handleSubmit = (event) => {
     event.preventDefault();
-    this.props.addComment(this.props.screamId, { body: this.state.comment }).then(() => {
+    this.props.addComment(this.props.postId, { body: this.state.comment }).then(() => {
       this.setState({comment: ''});
     })
-  };
-
-  // componentDidUpdate(prevProps) {
-  //   if(
-  //     prevProps.scream.comments && 
-  //     prevProps.scream.comments.length !== this.props.scream.comments.length
-  //   ){
-  //     this.setState({comment: ''});
-  //   }
-  // }
-  
+  };  
 
   render() {
     const { classes, loading, error } = this.props;
@@ -47,7 +37,7 @@ class AddComment extends Component {
           name="comment"
           type="text"
           rows="3"
-          placeholder="Comment of Scream"
+          placeholder="Comment of Post"
           error={!!error}
           helperText={error}
           className={classes.textField}
@@ -73,9 +63,9 @@ class AddComment extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    loading: state.screamReducer.loading.addComment,
-    error: state.screamReducer.errors.addComment,
-    scream: state.screamReducer.scream,
+    loading: state.postReducer.loading.addComment,
+    error: state.postReducer.error.addComment,
+    post: state.postReducer.post,
   };
 };
 

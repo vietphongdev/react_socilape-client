@@ -2,32 +2,26 @@ import React, { Component } from 'react';
 import { Grid } from '@material-ui/core';
 import { connect } from 'react-redux';
 // Component
-import ScreamSkeleton from '../components/scream/ScreamSkeleton';
-import Scream from '../components/scream/Scream';
-import Profile from '../components/profile/Profile';
+import PostSkeleton from '../components/post/PostSkeleton';
+import Post from '../components/post/Post';
 // Action
-import { getScreams } from '../redux/actions/screamAction';
+import { getPosts } from '../redux/actions/postAction';
 
 class Home extends Component {
 
-  componentDidMount() {
-    this.props.getScreams()
+  componentDidMount() {   
+    this.props.getPosts()
   };
   
   render() {
-    const { authenticated, loading, screams } = this.props;
+    const { loading, posts } = this.props;
     return (
       <Grid container spacing={10}>
-        <Grid item sm={8} xs={12}>
+        <Grid item>
           {
             loading 
-            ? <ScreamSkeleton quantity={2} />
-            : screams && screams.map((scream, index) => <Scream key={index} scream={scream} />)
-          }
-        </Grid>
-        <Grid item sm={4} xs={12}>
-          {
-            authenticated ? <Profile /> : null
+            ? <PostSkeleton quantity={2} />
+            : posts && posts.map((post, index) => <Post key={index} post={post} />)
           }
         </Grid>
       </Grid>
@@ -37,14 +31,13 @@ class Home extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    authenticated: state.userReducer.authenticated,
-    loading: state.screamReducer.loading.get,
-    screams: state.screamReducer.screams,
+    loading: state.postReducer.loading.get,
+    posts: state.postReducer.posts,
   };
 };
 
 const mapActionToProps = {
-  getScreams
+  getPosts
 }
 
 

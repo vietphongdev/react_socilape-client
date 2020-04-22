@@ -11,16 +11,19 @@ import { Provider } from 'react-redux';
 import store from './redux/store';
 
 import jwtDecode from 'jwt-decode';
-import AuthenticateRoute from './utils/AuthenticateRoute';
+import AuthenticateRoute from './routes/AuthenticateRoute';
+import PrivateRoute from './routes/PrivateRoute';
 // Page
 import Navbar from './components/layout/Navbar';
 import Signup from './pages/Signup';
 import Login from './pages/Login';
 import Home from './pages/Home';
-import ScreamDetail from './pages/ScreamDetail';
+import UserDetail from './pages/UserDetail';
+import CreatePost from './pages/CreatePost';
+import PostDetail from './pages/PostDetail';
 
 import { AUTHENTICATE_SUCCESS } from './redux/types';
-import { getUser, handleLogout } from './redux/actions/userAction';
+import { getOwner, handleLogout } from './redux/actions/userAction';
 
 const theme = createMuiTheme(generalStyle);
 
@@ -36,10 +39,8 @@ class App extends React.Component {
       } else {
         store.dispatch({ type: AUTHENTICATE_SUCCESS });
         axios.defaults.headers.common['Authorization'] = token;
-        store.dispatch(getUser());
+        store.dispatch(getOwner());
       }
-    } else {
-      //window.location.href = '/login';
     }
   }
   render() {
@@ -50,8 +51,6 @@ class App extends React.Component {
             <Navbar />
             <div className="container">
               <Switch>
-                <Route exact path="/" component={Home} />
-                <Route exact path={'/:category/:screamId'} component={ScreamDetail}/>
                 <AuthenticateRoute
                   exact
                   path="/signup"
@@ -62,6 +61,10 @@ class App extends React.Component {
                   path="/login"
                   component={Login}
                 />
+                <Route exact path="/" component={Home} />
+                <Route exact path={'/user/:userId'} component={UserDetail}/>
+                <PrivateRoute exact path={'/post/create'} component={CreatePost}/>
+                <PrivateRoute exact path={'/:category/:postId'} component={PostDetail}/>
               </Switch>
             </div>
           </BrowserRouter>

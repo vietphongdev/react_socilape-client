@@ -11,7 +11,7 @@ const styles = (theme) => ({
   },
 });
 
-class ProfileSkeleton extends Component {
+class UserSkeleton extends Component {
   render() {
     const { classes } = this.props;
     return (
@@ -32,4 +32,4 @@ class ProfileSkeleton extends Component {
   }
 }
 
-export default withStyles(styles)(ProfileSkeleton);
+export default withStyles(styles)(UserSkeleton);

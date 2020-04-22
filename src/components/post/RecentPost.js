@@ -42,7 +42,7 @@ const styles = (theme) => ({
   },
 });
 
-class HotScream extends Component {
+class RecentPost extends Component {
   render() {
     const { classes } = this.props;
     return (
@@ -127,4 +127,4 @@ class HotScream extends Component {
   }
 }
 
-export default withStyles(styles)(HotScream);
+export default withStyles(styles)(RecentPost);

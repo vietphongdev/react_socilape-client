@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import dayjs from 'dayjs';
+import localizedFormat from 'dayjs/plugin/localizedFormat';
 // Material-Ui
 import withStyles from '@material-ui/core/styles/withStyles';
 import {
@@ -31,11 +33,11 @@ const styles = (theme) => ({
   },
 });
 
-class ScreamDetailHeader extends Component {
+class PostDetailHeader extends Component {
   render() {
     const {
       classes,
-      scream: { authorId, authorName, authorImage, likeCount = 0, comments = 0 },
+      post: { authorId, authorName, authorImage, createdAt, likeCount = 0, comments = 0 },
     } = this.props;
     return (
       <Grid
@@ -45,6 +47,7 @@ class ScreamDetailHeader extends Component {
         justify="space-between"
       >
         <Grid>
+          {/* About Author */}
           <Grid container direction="row" alignItems="center">
             <Avatar
               alt="Remy Sharp"
@@ -56,7 +59,7 @@ class ScreamDetailHeader extends Component {
                 <Typography
                   color="primary"
                   component={Link}
-                  to={`/users/${authorId}`}
+                  to={`/user/${authorId}`}
                 >
                   @{authorName}
                 </Typography>
@@ -95,8 +98,12 @@ class ScreamDetailHeader extends Component {
           </Grid>
         </Grid>
 
+        {/* About Post */}
         <Grid>
-          <Grid>Published Nov 20th, 2019 4:09 PM</Grid>
+          <Typography color="textSecondary">
+            Published: {" "}
+            { dayjs(createdAt).format('dddd, MMMM D, YYYY h:mm A') }
+          </Typography>
           <Grid>
             <Tooltip title={`Views: ${34}`} placement="bottom">
               <IconButton
@@ -134,8 +141,8 @@ class ScreamDetailHeader extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    loading: state.screamReducer.loading.getDetail,
-    scream: state.screamReducer.scream,
+    loading: state.postReducer.loading.getDetail,
+    post: state.postReducer.post,
   };
 };
 
@@ -144,4 +151,4 @@ const mapActionToProps = {};
 export default connect(
   mapStateToProps,
   mapActionToProps
-)(withStyles(styles)(ScreamDetailHeader));
+)(withStyles(styles)(PostDetailHeader));

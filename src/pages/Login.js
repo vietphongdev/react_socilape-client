@@ -29,7 +29,8 @@ class Login extends Component {
   };
 
   render() {
-    const { classes, user : {loading, errors} } = this.props;    
+    const { classes, loading, error } = this.props;
+     
     const { email, password } = this.state;
     return (
       <Grid container className={classes.container}>
@@ -45,8 +46,8 @@ class Login extends Component {
               type="email"
               label="Email"
               fullWidth
-              helperText={errors.email}
-              error={errors.email ? true : false}
+              helperText={error.email}
+              error={error.email ? true : false}
               className={classes.textField}
               value={email}
               onChange={this.handleChange}
@@ -57,17 +58,17 @@ class Login extends Component {
               type="password"
               label="Password"
               fullWidth
-              helperText={errors.password}
-              error={errors.password ? true : false}
+              helperText={error.password}
+              error={error.password ? true : false}
               className={classes.textField}
               value={password}
               onChange={this.handleChange}
             />
             {
-							errors.error && 
+							Object.entries(error).length ?
               <Typography variant="body2" className={classes.customError}>
-                {errors.error}
-              </Typography>
+                {error.general}
+              </Typography> : null
             }
             <Button
               type="submit"
@@ -93,7 +94,8 @@ class Login extends Component {
 
 const mapStateToProps = state => {
   return {
-    user: state.userReducer
+    loading: state.userReducer.loading.authenticated,
+    error: state.userReducer.error.authenticated,
   }
 };
 

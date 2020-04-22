@@ -12,13 +12,13 @@ import {
 } from '@material-ui/core';
 import EditIcon from '@material-ui/icons/Edit';
 import { connect } from 'react-redux';
-import { editProfile } from '../../redux/actions/userAction';
+import {editUser} from '../../redux/actions/userAction';
 
 const styles = (theme) => ({
   ...theme.form,
 });
 
-class EditProfile extends Component {
+class EditUser extends Component {
   state = {
     bio: '',
     website: '',
@@ -54,7 +54,7 @@ class EditProfile extends Component {
         website,
         location
     };
-    this.props.editProfile(userData);
+    this.props.editUser(userData);
     this.closeDialog()
   }
 
@@ -70,7 +70,7 @@ class EditProfile extends Component {
 
     return (
       <Fragment>
-        <Tooltip title="Edit Profile" placement="top">
+        <Tooltip title="Edit User" placement="top">
           <IconButton onClick={this.openDialog} className={classes.button}>
             <EditIcon color="primary" />
           </IconButton>
@@ -81,7 +81,7 @@ class EditProfile extends Component {
           fullWidth
           maxWidth="sm"
         >
-          <DialogTitle>Edit Profile</DialogTitle>
+          <DialogTitle>Edit User</DialogTitle>
           <DialogContent>
             <form onSubmit={this.handleSubmit}>
               <TextField
@@ -134,15 +134,15 @@ class EditProfile extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    credentials: state.userReducer.credentials,
+    credentials: state.userReducer.user.owner.credentials,
   };
 };
 
 const mapActionToProps = {
-  editProfile,
+  editUser,
 };
 
 export default connect(
   mapStateToProps,
   mapActionToProps
-)(withStyles(styles)(EditProfile));
+)(withStyles(styles)(EditUser));

@@ -3,10 +3,9 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 // Material-Ui
 import withStyles from '@material-ui/core/styles/withStyles';
-import { AppBar, Toolbar, Button, Typography } from '@material-ui/core';
+import { AppBar, Toolbar, Button, Typography, Avatar, Tooltip } from '@material-ui/core';
 import ExitToApp from '@material-ui/icons/ExitToApp';
-// Component
-import CreateScream from '../scream/CreateScream';
+import BorderColorIcon from '@material-ui/icons/BorderColor';
 // Action
 import { handleLogout } from '../../redux/actions/userAction';
 import { IoIosLogIn } from 'react-icons/io';
@@ -20,7 +19,12 @@ const styles = (theme) => ({
 
 class Navbar extends Component {
   render() {
-    const { classes, authenticated, handleLogout } = this.props;
+    const { classes, authenticated, handleLogout, user, loading } = this.props;
+    let userId, userImage;
+    if (user) {
+      userId = user.credentials.userId;
+      userImage = user.credentials.userImage;
+    }
     return (
       <AppBar>
         <Toolbar>
@@ -34,11 +38,24 @@ class Navbar extends Component {
           </Typography>
           {authenticated ? (
             <Fragment>
-              <Button
-                color="inherit"
+              
+              <Tooltip
+                title="Create New Post"
+                placement="bottom"
+                onClick={this.handleOpen}
               >
-                <CreateScream />
-              </Button>
+                <Button color="inherit" component={Link} to="/post/create">
+                  <BorderColorIcon />
+                </Button>
+                
+              </Tooltip>
+              {loading ? (
+                <Avatar alt="Remy Sharp" src={userImage} />
+              ) : (
+                <Link to={`/user/${userId}`}>
+                  <Avatar alt="Remy Sharp" src={userImage} />
+                </Link>
+              )}
               <Button
                 color="inherit"
                 component={Link}
@@ -70,6 +87,8 @@ class Navbar extends Component {
 const mapStateToProps = (state) => {
   return {
     authenticated: state.userReducer.authenticated,
+    user: state.userReducer.user.owner,
+    loading: state.userReducer.loading.getOwner,
   };
 };
 

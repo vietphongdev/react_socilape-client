@@ -1,32 +1,32 @@
 import {
     CLEAR_ERROR,
 
-    CREATE_SCREAM_REQUEST,
-    CREATE_SCREAM_SUCCESS,
-    CREATE_SCREAM_FAILURE,
+    CREATE_POST_REQUEST,
+    CREATE_POST_SUCCESS,
+    CREATE_POST_FAILURE,
 
-    GET_SCREAMS_REQUEST,
-    GET_SCREAMS_SUCCESS,
-    GET_SCREAMS_FAILURE,
+    GET_POSTS_REQUEST,
+    GET_POSTS_SUCCESS,
+    GET_POSTS_FAILURE,
 
-    GET_SCREAM_REQUEST,
-    GET_SCREAM_SUCCESS,
-    GET_SCREAM_FAILURE,
+    GET_POST_REQUEST,
+    GET_POST_SUCCESS,
+    GET_POST_FAILURE,
 
-    LIKE_SCREAM,
-    UNLIKE_SCREAM,
+    LIKE_POST,
+    UNLIKE_POST,
 
     ADD_COMMENT_REQUEST,
     ADD_COMMENT_SUCCESS,
     ADD_COMMENT_FAILURE,
 
-    DELETE_SCREAM_REQUEST,
-    DELETE_SCREAM_SUCCESS
+    DELETE_POST_REQUEST,
+    DELETE_POST_SUCCESS
 } from '../types';
 
 const initialState = {
-    screams: [],
-    scream: {},
+    posts: [],
+    post: {},
     loading: {
         get: false,
         getDetail: false,
@@ -34,9 +34,9 @@ const initialState = {
         delete: false,
         addComment: false,
     },
-    errors: {
+    error: {
         get: null,
-        create: null,
+        create: {},
         delete: null,
         addComment: null
     }
@@ -49,14 +49,14 @@ export default function(state = initialState, { type, method, payload }){
         case CLEAR_ERROR:
             return {
                 ...state,
-                errors: {
-                    ...state.errors,
+                error: {
+                    ...state.error,
                     [method]: null
                 }
             };
 
         // CREATE
-        case CREATE_SCREAM_REQUEST:
+        case CREATE_POST_REQUEST:
             return {
                 ...state,
                 loading: {
@@ -64,37 +64,38 @@ export default function(state = initialState, { type, method, payload }){
                     create: true
                 }
             };
-        case CREATE_SCREAM_SUCCESS:
+        case CREATE_POST_SUCCESS:
             return {
                 ...state,
                 loading: {
                     ...state.loading,
                     create: false
                 },
-                errors: {
-                    ...state.errors,
-                    create: null
+                error: {
+                    ...state.error,
+                    create: {}
                 },
-                screams: [
+                post : payload,
+                posts: [
                     payload,
-                    ...state.screams
+                    ...state.posts
                 ]
             };
-        case CREATE_SCREAM_FAILURE:
+        case CREATE_POST_FAILURE:
             return {
                 ...state,
                 loading: {
                     ...state.loading,
                     create: false
                 },
-                errors : {
-                    ...state.errors,
+                error : {
+                    ...state.error,
                     create: payload
                 }
             };
 
         // GET LIST
-        case GET_SCREAMS_REQUEST:
+        case GET_POSTS_REQUEST:
             return {
                 ...state,
                 loading: {
@@ -102,11 +103,11 @@ export default function(state = initialState, { type, method, payload }){
                     get: true
                 }
             };
-        case GET_SCREAMS_SUCCESS:
-        case GET_SCREAMS_FAILURE:
+        case GET_POSTS_SUCCESS:
+        case GET_POSTS_FAILURE:
             return {
                 ...state,
-                screams: payload,
+                posts: payload,
                 loading: {
                     ...state.loading,
                     get: false
@@ -114,7 +115,7 @@ export default function(state = initialState, { type, method, payload }){
             };
 
         // GET DETAIL
-        case GET_SCREAM_REQUEST:
+        case GET_POST_REQUEST:
             return {
                 ...state,
                 loading: {
@@ -122,11 +123,11 @@ export default function(state = initialState, { type, method, payload }){
                     getDetail: true
                 }
             };
-        case GET_SCREAM_SUCCESS:
-        case GET_SCREAM_FAILURE:
+        case GET_POST_SUCCESS:
+        case GET_POST_FAILURE:
             return {
                 ...state,
-                scream: payload,
+                post: payload,
                 loading: {
                     ...state.loading,
                     getDetail: false
@@ -134,18 +135,18 @@ export default function(state = initialState, { type, method, payload }){
             };
         
         // LIKE AND UNLIKE
-        case LIKE_SCREAM:
-        case UNLIKE_SCREAM:
+        case LIKE_POST:
+        case UNLIKE_POST:
             return {
                 ...state,
-                screams: state.screams.map(scream => {
-                    if(scream.screamId === payload.screamId){
+                posts: state.posts.map(post => {
+                    if(post.postId === payload.postId){
                         return {
-                            ...scream,
+                            ...post,
                             likeCount: payload.likeCount
                         }
                     }
-                    return scream;
+                    return post;
                 })
             };
 
@@ -165,15 +166,15 @@ export default function(state = initialState, { type, method, payload }){
                     ...state.loading,
                     addComment: false
                 },
-                scream: {
-                    ...state.scream,
+                post: {
+                    ...state.post,
                     comments: [
                         payload,
-                        ...state.scream.comments,
+                        ...state.post.comments,
                     ]
                 },
-                errors: {
-                    ...state.errors,
+                error: {
+                    ...state.error,
                     addComment: null
                 }
             };
@@ -184,14 +185,14 @@ export default function(state = initialState, { type, method, payload }){
                     ...state.loading,
                     addComment: false
                 },
-                errors: {
-                    ...state.errors,
+                error: {
+                    ...state.error,
                     addComment: payload
                 }
             };
         
         // DELETE
-        case DELETE_SCREAM_REQUEST:
+        case DELETE_POST_REQUEST:
             return {
                 ...state,
                 loading: {
@@ -199,10 +200,10 @@ export default function(state = initialState, { type, method, payload }){
                     delete: true
                 }
             }       
-        case DELETE_SCREAM_SUCCESS:
+        case DELETE_POST_SUCCESS:
             return {
                 ...state,
-                screams: state.screams.filter(scream => scream.screamId !== payload),
+                posts: state.posts.filter(post => post.postId !== payload),
                 loading: {
                     ...state.loading,
                     delete: false

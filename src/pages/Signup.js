@@ -31,7 +31,7 @@ class Signup extends Component {
   };
 
   render() {
-    const { classes,  user : {loading, errors} } = this.props;
+    const { classes,  loading, error } = this.props;
     const { email, password, confirmPassword, handle } = this.state;
     return (
       <Grid container className={classes.container}>
@@ -47,8 +47,8 @@ class Signup extends Component {
               type="email"
               label="Email"
               fullWidth
-              helperText={errors.email}
-              error={errors.email ? true : false}
+              helperText={error.email}
+              error={error.email ? true : false}
               className={classes.textField}
               value={email}
               onChange={this.handleChange}
@@ -59,8 +59,8 @@ class Signup extends Component {
               type="password"
               label="Password"
               fullWidth
-              helperText={errors.password}
-              error={errors.password ? true : false}
+              helperText={error.password}
+              error={error.password ? true : false}
               className={classes.textField}
               value={password}
               onChange={this.handleChange}
@@ -71,8 +71,8 @@ class Signup extends Component {
               type="password"
               label="Confirm Password"
               fullWidth
-              helperText={errors.confirmPassword}
-              error={errors.confirmPassword ? true : false}
+              helperText={error.confirmPassword}
+              error={error.confirmPassword ? true : false}
               className={classes.textField}
               value={confirmPassword}
               onChange={this.handleChange}
@@ -83,16 +83,16 @@ class Signup extends Component {
               type="text"
               label="Handle"
               fullWidth
-              helperText={errors.handle}
-              error={errors.handle ? true : false}
+              helperText={error.handle}
+              error={error.handle ? true : false}
               className={classes.textField}
               value={handle}
               onChange={this.handleChange}
             />
             {
-							errors.error && 
+							error.error && 
               <Typography variant="body2" className={classes.customError}>
-                {errors.error}
+                {error.error}
               </Typography>
             }
             <Button
@@ -119,7 +119,8 @@ class Signup extends Component {
 
 const mapStateToProps = state => {
   return {
-    user: state.userReducer
+    loading: state.userReducer.loading.authenticated,
+    error: state.userReducer.error.authenticated,
   }
 };
 

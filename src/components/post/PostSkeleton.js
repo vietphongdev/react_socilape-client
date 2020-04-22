@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { CardHeader } from '@material-ui/core';
 import Skeleton from '@material-ui/lab/Skeleton';
 
-class SkeletonScream extends Component {
+class SkeletonPost extends Component {
 
   render() {
     const { quantity = 1 } = this.props;
@@ -30,4 +30,4 @@ class SkeletonScream extends Component {
 }
 
 
-export default SkeletonScream;
+export default SkeletonPost;

@@ -2,8 +2,11 @@ import {
     AUTHENTICATE_REQUEST,
     AUTHENTICATE_SUCCESS,
     AUTHENTICATE_FAILURE,
-    GET_USER_REQUEST,
-    GET_USER_SUCCESS,
+    GET_OWNER_REQUEST,
+    GET_OWNER_SUCCESS,
+    GET_GUEST_REQUEST,
+    GET_GUEST_SUCCESS,
+    GET_GUEST_FAILURE,
     LOGOUT_SUCCESS
 
 } from '../types';
@@ -16,7 +19,7 @@ export const handleAuthenticate = (route, userData, history) => (dispatch) => {
     .then(res => {
       setAuthorizationHeader(res.data.token);
       dispatch({ type: AUTHENTICATE_SUCCESS });
-      dispatch(getUser());
+      dispatch(getOwner());
       history.push('/');
     })
     .catch(err => {
@@ -27,35 +30,53 @@ export const handleAuthenticate = (route, userData, history) => (dispatch) => {
     });
 };
 
-export const getUser = () => (dispatch) => {
-  dispatch({ type: GET_USER_REQUEST });
+export const getOwner = () => (dispatch) => {
+  dispatch({ type: GET_OWNER_REQUEST });
   axios
       .get('/user')
       .then(res => {
           dispatch({
-              type: GET_USER_SUCCESS,
+              type: GET_OWNER_SUCCESS,
               payload: res.data
           })
       })
       .catch(err => console.log(err))
 };
 
+export const getGuest = (userId) => (dispatch) => {
+  dispatch({ type: GET_GUEST_REQUEST });
+  axios
+    .get(`/user/${userId}`)
+    .then(res => {
+      dispatch({
+          type: GET_GUEST_SUCCESS,
+          payload: res.data
+      })
+    })
+    .catch(err => {
+      dispatch({
+        type: GET_GUEST_FAILURE,
+        payload: err.response.data
+      })
+    })
+};
+
 export const uploadAvatar = formData => dispatch => {
-  dispatch({ type: GET_USER_REQUEST });
+  dispatch({ type: GET_OWNER_REQUEST });
   axios
     .post('/user/avatar', formData)
     .then(() => {
-      dispatch(getUser());
+      dispatch(getOwner());
     })
     .catch(err => console.log(err))
 };
 
-export const editProfile = userData => dispatch => {
-  dispatch({ type: GET_USER_REQUEST });
+export const editUser = userData => dispatch => {
+  dispatch({ type: GET_OWNER_REQUEST });
   axios
     .post('/user', userData)
     .then(() => {
-      dispatch(getUser());
+      dispatch(getOwner());
     })
     .catch(err => console.log(err))
 };

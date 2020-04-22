@@ -31,7 +31,11 @@ class Comment extends Component {
     return (
       <Fragment>
         {comments.map((comment) => {
-          const { userHandle, userImage, body, createdAt } = comment;
+          const { userHandle : {
+            userId,
+            userName,
+            userImage
+          }, body, createdAt } = comment;
           return (
             <div key={createdAt} className={classes.comment}>
               <Grid>
@@ -45,9 +49,9 @@ class Comment extends Component {
                     <Typography
                       color="primary"
                       component={Link}
-                      to={`/users/${userHandle}`}
+                      to={`/user/${userId}`}
                     >
-                      @{userHandle}
+                      @{userName}
                     </Typography>
                     <Typography variant="body2" color="textSecondary">
                       {dayjs(createdAt).format('h:mm a, MMMM DD YYYY')}
@@ -68,7 +72,7 @@ class Comment extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    loading: state.screamReducer.loading.getDetail,
+    loading: state.postReducer.loading.getDetail,
   };
 };
 
